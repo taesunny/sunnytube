@@ -11,12 +11,20 @@ export const home = async (req, res) => {
   }
 };
 
-export const search = (req, res) => {
-  const serchingBy = req.query.term;
+export const search = async (req, res) => {
   const {
     query: { term: searchingBy },
   } = req;
-  res.render("search", { pageTitle: "Search", searchingBy });
+  let videos = [];
+  try {
+    videos = await Video.find({
+      title: { $regex: searchingBy, $options: "i" }, // insensitive with large, small character
+    });
+  } catch (error) {
+    res.redirect(routes.home);
+  }
+
+  res.render("search", { pageTitle: "Search", searchingBy, videos });
 };
 
 export const getUpload = (req, res) =>
