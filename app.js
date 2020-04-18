@@ -14,6 +14,7 @@ const app = express();
 app.use(helmet()); // place it to the top to be safe
 app.set("view engine", "pug");
 app.use("/uploads", express.static("uploads")); // middleware sending file from directory
+app.use("/static", express.static("static"));
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
